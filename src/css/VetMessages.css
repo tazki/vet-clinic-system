@@ -423,14 +423,20 @@
     margin-left: 0 !important;
     width: 100% !important;
     overflow-y: auto;
+    position: relative;
   }
 
   .top-bar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
     height: auto !important;
     min-height: 56px;
     padding: 0 12px !important;
     gap: 8px;
     flex-wrap: nowrap;
+    z-index: 999 !important;
   }
 
   .top-bar h2 {
@@ -443,6 +449,8 @@
 
   .content-body {
     padding: 16px !important;
+    padding-top: calc(16px + var(--topbar-height)) !important;
+    margin-top: var(--topbar-height) !important;
   }
 
   /* Stats grid: 2 columns on tablet, 1 on phone */

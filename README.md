@@ -6,13 +6,13 @@ React web application for the PawCruz veterinary clinic system. Supports 4 user 
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Framework | React 19 |
-| Routing | React Router 7 |
-| HTTP Client | Axios |
-| Mobile Wrapper | Capacitor 8 |
-| Styling | Plain CSS (responsive, mobile-first) |
+| Layer          | Technology                           |
+| -------------- | ------------------------------------ |
+| Framework      | React 19                             |
+| Routing        | React Router 7                       |
+| HTTP Client    | Axios                                |
+| Mobile Wrapper | Capacitor 8                          |
+| Styling        | Plain CSS (responsive, mobile-first) |
 
 ---
 
@@ -55,12 +55,12 @@ frontend/
 
 ## Roles & Dashboards
 
-| Role | Dashboard Route | Pages |
-|---|---|---|
-| `admin` | `/admin` | Dashboard, User Management, Messages, Notifications, Profile |
-| `veterinarian` | `/vet` | Dashboard, Patients, Calendar, Messages, Medical Records, Inventory, Notifications, Profile |
-| `staff` | `/staff` | Dashboard, Appointments, User Management, Pets Profile, Messages, Inventory, Payment History, Activity Log, Notifications, Profile |
-| `pet_owner` | `/pet-owner` | Dashboard, Appointments, My Pets, Messages, Medical Records, Payment History, Notifications, Profile |
+| Role           | Dashboard Route | Pages                                                                                                                              |
+| -------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `admin`        | `/admin`        | Dashboard, User Management, Messages, Notifications, Profile                                                                       |
+| `veterinarian` | `/vet`          | Dashboard, Patients, Calendar, Messages, Medical Records, Inventory, Notifications, Profile                                        |
+| `staff`        | `/staff`        | Dashboard, Appointments, User Management, Pets Profile, Messages, Inventory, Payment History, Activity Log, Notifications, Profile |
+| `pet_owner`    | `/pet-owner`    | Dashboard, Appointments, My Pets, Messages, Medical Records, Payment History, Notifications, Profile                               |
 
 ---
 
@@ -97,45 +97,176 @@ Output goes to `build/`.
 ## Build for Android (APK)
 
 ### Requirements
-- Android Studio installed
-- Java 17+
 
-### Steps
+- Android Studio 2023+
+- Java 17+ installed
+- Capacitor CLI: `npm install -g @capacitor/cli`
+
+### Environment Setup
+
+Create `.env` in frontend root:
+
+```env
+# Production API
+REACT_APP_API_URL=https://vet-clinic-system-api.onrender.com/api
+```
+
+For local development:
+
+```env
+# Local API (change localhost to your machine LAN IP for Android device)
+REACT_APP_API_URL=http://192.168.x.x:5000/api
+```
+
+### Build Steps
 
 ```bash
-# 1. Build React app and sync to Android project
+# 1. Build React + sync to Android
 npm run build:android
 
 # 2. Open in Android Studio
 npm run open:android
+
+# 3. In Android Studio
+Build → Build Bundle(s) / APK(s) → Build APK(s)
 ```
 
-Then in Android Studio:
-**Build → Build Bundle(s) / APK(s) → Build APK(s)**
+**Output**: `android/app/build/outputs/apk/debug/app-debug.apk`
 
-APK output: `android/app/build/outputs/apk/debug/app-debug.apk`
+### Test on Device/Emulator
 
-### Capacitor config (`capacitor.config.ts`)
+**Option 1: Android Emulator**
+
+- Open Android Studio
+- Tools → Device Manager → Create Virtual Device
+- Run app (green play icon)
+
+**Option 2: Physical Phone**
+
+- Enable USB Debugging (Settings → Developer Options)
+- Connect via USB
+- Select phone in Android Studio dropdown
+- Click Run
+
+### APK Installation
+
+```bash
+# Install APK on device
+adb install -r android/app/build/outputs/apk/debug/app-debug.apk
+
+# Launch app
+adb shell am start -n com.pawcruz.app/.MainActivity
+```
+
+### Capacitor Configuration (`capacitor.config.ts`)
 
 ```ts
-{
+export const config: CapacitorConfig = {
   appId: "com.pawcruz.app",
   appName: "PawCruz",
   webDir: "build",
-  server: { androidScheme: "https" }
-}
+  server: {
+    androidScheme: "https", // Important: Capacitor uses https://localhost
+  },
+};
+```
+
+**Important**: Capacitor runs at `https://localhost` on the webview. This origin must be in backend CORS `allowedOrigins`.
+
+---
+
+## Environment Variables
+
+### Create `.env` file in frontend root:
+
+```env
+# API endpoint
+REACT_APP_API_URL=https://vet-clinic-system-api.onrender.com/api
+```
+
+### For local development with Android on physical device:
+
+Replace `localhost` with your machine's LAN IP:
+
+```bash
+# Get your LAN IP
+# Windows: ipconfig | findstr "IPv4"
+# Mac/Linux: ifconfig | grep inet
+
+# Then in .env:
+REACT_APP_API_URL=http://192.168.x.x:5000/api
+```
+
+### Environment-specific builds:
+
+```bash
+# Development (local backend)
+REACT_APP_API_URL=http://localhost:5000/api npm run build
+
+# Production (Render API)
+REACT_APP_API_URL=https://vet-clinic-system-api.onrender.com/api npm run build:android
 ```
 
 ---
 
-## Environment / API
+## Responsive Design
 
-The frontend connects to the backend via Axios. Update the base URL in `src/api/api.js` to match your backend address (default: `http://localhost:5000`).
+All pages are fully responsive for mobile (375px+) and tablet using CSS media queries:
 
-When running on a physical Android device, replace `localhost` with your machine LAN IP (e.g., `http://192.168.x.x:5000`).
+- Desktop: Sidebar always visible
+- Tablet (≤768px): Sidebar drawer with hamburger toggle
+- Mobile (≤480px): Optimized layouts, full-width inputs, card views
+
+Key responsive features:
+
+- Pet list shows as cards on mobile (src/css/responsive-tables.css)
+- Forms stack single-column on small screens
+- Video on login page resizes for mobile
+- Bottom navigation bar collapses on small screens
 
 ---
 
-## Responsiveness
+## Troubleshooting Mobile Build
 
-All pages are responsive for mobile (375px+) and tablet using CSS media queries. The sidebar converts to a drawer overlay on screens <= 768px, toggled by a hamburger button in the top bar.
+### Build fails: "Gradle plugin not found"
+
+Update `android/build.gradle` to use AGP 8.11.1:
+
+```gradle
+classpath 'com.android.tools.build:gradle:8.11.1'
+```
+
+### CORS error on mobile (XMLHttpRequest blocked)
+
+- Backend must include `https://localhost` in `allowedOrigins` (see backend README)
+- Verify `.env` has correct API_URL
+- Clear app data on device and rebuild APK
+
+### Can't connect to local backend from Android device
+
+- Get your machine LAN IP:
+  - Windows: `ipconfig | findstr IPv4`
+  - Mac/Linux: `ifconfig | grep inet`
+- Update `.env`: `REACT_APP_API_URL=http://192.168.x.x:5000/api`
+- Rebuild APK: `npm run build:android`
+- Verify firewall allows port 5000 from device
+
+### App crashes on startup
+
+```bash
+# Check Android logs
+adb logcat | grep pawcruz
+
+# Clear app data
+adb shell pm clear com.pawcruz.app
+```
+
+### APK won't install
+
+```bash
+# Uninstall old version first
+adb uninstall com.pawcruz.app
+
+# Then reinstall
+adb install -r android/app/build/outputs/apk/debug/app-debug.apk
+```

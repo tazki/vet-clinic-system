@@ -133,11 +133,23 @@ a,
     pointer-events: auto;
   }
 
-  /* Main content takes full width */
+  /* Main content takes full width — flex column container */
   .main-area,
   .main-content {
     margin-left: 0 !important;
     width: 100% !important;
+    flex: 1 !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+  }
+
+  /* Fixed-height container so only content-body scrolls */
+  .dashboard-container {
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    overflow: hidden !important;
   }
 
   /* Top bar adjustments */
@@ -353,8 +365,33 @@ a,
   .main-content,
   .page-content,
   .content-area {
+    padding-top: var(--topbar-height) !important;
     padding-bottom: calc(
       20px + var(--footer-height) + env(safe-area-inset-bottom)
+    ) !important;
+  }
+
+  /*
+   * Flex-containment overrides — specificity 0,2,0 beats per-page
+   * .top-bar / .content-body (0,1,0) so no need to edit 30+ CSS files.
+   * Keeps the topbar in normal document flow; only content-body scrolls.
+   */
+  .main-area > .top-bar,
+  .main-area > .topbar {
+    position: static !important;
+    flex-shrink: 0 !important;
+    padding-top: max(env(safe-area-inset-top), 0px) !important;
+  }
+
+  .main-area > .content-body {
+    flex: 1 !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    margin-top: 0 !important;
+    padding-top: 16px !important;
+    padding-bottom: calc(
+      16px + var(--footer-height) + env(safe-area-inset-bottom)
     ) !important;
   }
 
@@ -374,6 +411,7 @@ a,
   .main-content,
   .page-content {
     padding: 20px !important;
+    padding-top: calc(20px + var(--topbar-height)) !important;
   }
 }
 
@@ -382,6 +420,7 @@ a,
   .main-content,
   .page-content {
     padding: 14px !important;
+    padding-top: calc(14px + var(--topbar-height)) !important;
   }
 
   table {

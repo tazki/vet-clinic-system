@@ -144,219 +144,7 @@ const PetOwnerMyPets = () => {
           >
             <span />
             <span />
-            {/* Desktop table & Mobile cards */}
-            <>
-              {/* Desktop Table */}
-              <div className="user-table-wrapper table-desktop">
-                <table className="user-table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Species / Breed</th>
-                      <th>Age</th>
-                      <th>Gender</th>
-                      <th>Status</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {loading ? (
-                      <tr>
-                        <td
-                          colSpan={6}
-                          style={{ textAlign: "center", color: "#888" }}
-                        >
-                          Loading pets...
-                        </td>
-                      </tr>
-                    ) : filtered.length === 0 ? (
-                      <tr>
-                        <td
-                          colSpan={6}
-                          style={{ textAlign: "center", color: "#888" }}
-                        >
-                          No pets found. Add one to get started.
-                        </td>
-                      </tr>
-                    ) : (
-                      filtered.map((pet) => (
-                        <tr key={pet.id}>
-                          <td className="user-name-cell">
-                            <div className="user-avatar-small">
-                              {pet.name.charAt(0)}
-                            </div>
-                            <span>{pet.name}</span>
-                          </td>
-                          <td>
-                            {pet.species}
-                            {pet.breed ? ` — ${pet.breed}` : ""}
-                          </td>
-                          <td>{pet.age ? `${pet.age} yr(s)` : "—"}</td>
-                          <td>{pet.gender || "—"}</td>
-                          <td>
-                            <span
-                              className={`status-pill ${pet.status === "Healthy" ? "active" : "inactive"}`}
-                            >
-                              {pet.status}
-                            </span>
-                          </td>
-                          <td>
-                            <div className="action-btns">
-                              <button
-                                className="edit-btn icon-btn"
-                                onClick={() => openEdit(pet)}
-                                title="Edit pet"
-                                aria-label="Edit pet"
-                              >
-                                <svg
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  aria-hidden="true"
-                                >
-                                  <path
-                                    d="M4 20h4l10-10-4-4L4 16v4z"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    strokeLinejoin="round"
-                                  />
-                                  <path
-                                    d="M12 6l4 4"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                  />
-                                </svg>
-                              </button>
-                              <button
-                                className="delete-btn icon-btn"
-                                onClick={() => archivePet(pet)}
-                                title="Archive pet"
-                                aria-label="Archive pet"
-                              >
-                                <svg
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  aria-hidden="true"
-                                >
-                                  <path
-                                    d="M5 7h14M9 7V5h6v2m-8 0 1 12h8l1-12"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-                                </svg>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Mobile Cards */}
-              <div className="table-mobile table-cards-list">
-                {loading ? (
-                  <p style={{ textAlign: "center", color: "#888" }}>
-                    Loading pets...
-                  </p>
-                ) : filtered.length === 0 ? (
-                  <p style={{ textAlign: "center", color: "#888" }}>
-                    No pets found. Add one to get started.
-                  </p>
-                ) : (
-                  filtered.map((pet) => (
-                    <div className="pets-card" key={pet.id}>
-                      <div className="pets-card-header">
-                        <div className="pets-card-avatar">
-                          {pet.name?.charAt(0) || "?"}
-                        </div>
-                        <div className="pets-card-name">{pet.name}</div>
-                      </div>
-                      <div className="pets-card-body">
-                        <div className="pets-card-row">
-                          <span className="pets-card-label">
-                            Species / Breed
-                          </span>
-                          <span>
-                            {pet.species}
-                            {pet.breed ? ` — ${pet.breed}` : ""}
-                          </span>
-                        </div>
-                        <div className="pets-card-row">
-                          <span className="pets-card-label">Age</span>
-                          <span>{pet.age ? `${pet.age} yr(s)` : "—"}</span>
-                        </div>
-                        <div className="pets-card-row">
-                          <span className="pets-card-label">Gender</span>
-                          <span>{pet.gender || "—"}</span>
-                        </div>
-                        <div className="pets-card-row">
-                          <span className="pets-card-label">Status</span>
-                          <span
-                            className={`status-pill ${pet.status === "Healthy" ? "active" : "inactive"}`}
-                          >
-                            {pet.status}
-                          </span>
-                        </div>
-                        <div className="pets-card-row">
-                          <span className="pets-card-label">Actions</span>
-                          <div className="action-btns">
-                            <button
-                              className="edit-btn icon-btn"
-                              onClick={() => openEdit(pet)}
-                              title="Edit pet"
-                              aria-label="Edit pet"
-                            >
-                              <svg
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                aria-hidden="true"
-                              >
-                                <path
-                                  d="M4 20h4l10-10-4-4L4 16v4z"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinejoin="round"
-                                />
-                                <path
-                                  d="M12 6l4 4"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                />
-                              </svg>
-                            </button>
-                            <button
-                              className="delete-btn icon-btn"
-                              onClick={() => archivePet(pet)}
-                              title="Archive pet"
-                              aria-label="Archive pet"
-                            >
-                              <svg
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                aria-hidden="true"
-                              >
-                                <path
-                                  d="M5 7h14M9 7V5h6v2m-8 0 1 12h8l1-12"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
-            </>
+            <span />
           </button>
           <h2>My Pets</h2>
           <div className="top-bar-right">
@@ -392,7 +180,8 @@ const PetOwnerMyPets = () => {
 
             {error && <p className="pets-error">{error}</p>}
 
-            <div className="user-table-wrapper">
+            {/* Desktop Table */}
+            <div className="user-table-wrapper table-desktop">
               <table className="user-table">
                 <thead>
                   <tr>
@@ -499,6 +288,105 @@ const PetOwnerMyPets = () => {
                   )}
                 </tbody>
               </table>
+            </div>
+
+            {/* Mobile Cards */}
+            <div className="table-mobile table-cards-list">
+              {loading ? (
+                <p style={{ textAlign: "center", color: "#888" }}>
+                  Loading pets...
+                </p>
+              ) : filtered.length === 0 ? (
+                <p style={{ textAlign: "center", color: "#888" }}>
+                  No pets found. Add one to get started.
+                </p>
+              ) : (
+                filtered.map((pet) => (
+                  <div className="pets-card" key={pet.id}>
+                    <div className="pets-card-header">
+                      <div className="pets-card-avatar">
+                        {pet.name?.charAt(0) || "?"}
+                      </div>
+                      <div className="pets-card-name">{pet.name}</div>
+                    </div>
+                    <div className="pets-card-body">
+                      <div className="pets-card-row">
+                        <span className="pets-card-label">Species / Breed</span>
+                        <span>
+                          {pet.species}
+                          {pet.breed ? ` — ${pet.breed}` : ""}
+                        </span>
+                      </div>
+                      <div className="pets-card-row">
+                        <span className="pets-card-label">Age</span>
+                        <span>{pet.age ? `${pet.age} yr(s)` : "—"}</span>
+                      </div>
+                      <div className="pets-card-row">
+                        <span className="pets-card-label">Gender</span>
+                        <span>{pet.gender || "—"}</span>
+                      </div>
+                      <div className="pets-card-row">
+                        <span className="pets-card-label">Status</span>
+                        <span
+                          className={`status-pill ${pet.status === "Healthy" ? "active" : "inactive"}`}
+                        >
+                          {pet.status}
+                        </span>
+                      </div>
+                      <div className="pets-card-row">
+                        <span className="pets-card-label">Actions</span>
+                        <div className="action-btns">
+                          <button
+                            className="edit-btn icon-btn"
+                            onClick={() => openEdit(pet)}
+                            title="Edit pet"
+                            aria-label="Edit pet"
+                          >
+                            <svg
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              aria-hidden="true"
+                            >
+                              <path
+                                d="M4 20h4l10-10-4-4L4 16v4z"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinejoin="round"
+                              />
+                              <path
+                                d="M12 6l4 4"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                              />
+                            </svg>
+                          </button>
+                          <button
+                            className="delete-btn icon-btn"
+                            onClick={() => archivePet(pet)}
+                            title="Archive pet"
+                            aria-label="Archive pet"
+                          >
+                            <svg
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              aria-hidden="true"
+                            >
+                              <path
+                                d="M5 7h14M9 7V5h6v2m-8 0 1 12h8l1-12"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </section>
