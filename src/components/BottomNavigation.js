@@ -87,6 +87,12 @@ const NAV_BY_ROLE = {
       path: "/vet-profile",
       icon: profileIcon,
     },
+    // {
+    //   key: "schedule",
+    //   label: "Schedule",
+    //   path: "/vet-schedule",
+    //   icon: appointmentIcon,
+    // },
   ],
   pet_owner: [
     {
@@ -115,9 +121,9 @@ const NAV_BY_ROLE = {
     },
     {
       key: "account",
-      label: "Account",
-      path: "/pet-owner-profile",
-      icon: profileIcon,
+      label: "Payments",
+      path: "/pet-owner-payments",
+      icon: payHistoryIcon,
     },
   ],
 };

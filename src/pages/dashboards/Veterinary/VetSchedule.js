@@ -28,9 +28,9 @@ const dayLabels = [
 const defaultWeek = dayLabels.map((_, dayOfWeek) => ({
   dayOfWeek,
   startTime: "09:00",
-  endTime: "17:00",
+  endTime: "19:00",
   slotDurationMinutes: 30,
-  isActive: dayOfWeek >= 1 && dayOfWeek <= 5,
+  isActive: true,
 }));
 
 export default function VetSchedule() {

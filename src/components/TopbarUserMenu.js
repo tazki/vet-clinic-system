@@ -11,6 +11,19 @@ export default function TopbarUserMenu({
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
+  const role = (() => {
+    try {
+      return JSON.parse(localStorage.getItem("user") || "{}").role || null;
+    } catch {
+      return null;
+    }
+  })();
+
+  const handleTutorial = () => {
+    setOpen(false);
+    window.dispatchEvent(new CustomEvent("startPetOwnerTutorial"));
+  };
+
   useEffect(() => {
     const close = () => setOpen(false);
     if (open) {
@@ -57,6 +70,15 @@ export default function TopbarUserMenu({
           >
             Edit Profile
           </button>
+          {role === "pet_owner" && (
+            <button
+              type="button"
+              className="topbar-user-menu-item"
+              onClick={handleTutorial}
+            >
+              Tutorial
+            </button>
+          )}
           <button
             type="button"
             className="topbar-user-menu-item topbar-user-menu-item-danger"

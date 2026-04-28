@@ -22,7 +22,6 @@ const PetOwnerDashboard = () => {
     upcomingAppointments: 0,
     unreadMessages: 0,
   });
-
   useEffect(() => {
     if (!user || user.role !== "pet_owner") {
       navigate("/login");
@@ -75,7 +74,7 @@ const PetOwnerDashboard = () => {
             </p>
           </div>
 
-          <div className="shared-stats-grid">
+          <div id="tutorial-stats" className="shared-stats-grid">
             <div className="stat-card blue">
               <div className="stat-info">
                 <span>My Pets</span>

@@ -218,14 +218,14 @@ const VetMedRec = () => {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
-              <label className="archived-filter-toggle">
+              {/* <label className="archived-filter-toggle">
                 <input
                   type="checkbox"
                   checked={includeArchived}
                   onChange={(e) => setIncludeArchived(e.target.checked)}
                 />
                 Show archived
-              </label>
+              </label> */}
               <button className="new-entry-btn" onClick={openCreate}>
                 New Entry
               </button>

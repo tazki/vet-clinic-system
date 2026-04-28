@@ -36,7 +36,10 @@ export default function PetOwnerSidebar({ isOpen, onClose }) {
         onClick={onClose}
       />
 
-      <aside className={`sidebar${isOpen ? " open" : ""}`}>
+      <aside
+        id="tutorial-sidebar"
+        className={`sidebar${isOpen ? " open" : ""}`}
+      >
         <div className="sidebar-brand">
           <img src={pawLogo} alt="Logo" />
           <span>PawCruz</span>

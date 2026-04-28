@@ -78,7 +78,7 @@ const PetOwnerPayHis = () => {
             <h3 style={{ fontFamily: "Poppins", fontWeight: "600" }}>
               Transaction History
             </h3>
-            <button
+            {/* <button
               className="export-btn"
               style={{
                 backgroundColor: "#438fb5",
@@ -90,7 +90,7 @@ const PetOwnerPayHis = () => {
               }}
             >
               Download Statement
-            </button>
+            </button> */}
           </div>
 
           {payments.length === 0 ? (

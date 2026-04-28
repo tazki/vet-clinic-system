@@ -1,7 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { initCSRF } from "./api/api";
 import BottomNavigation from "./components/BottomNavigation";
+import PetOwnerTutorial, {
+  STORAGE_KEY as PO_TUTORIAL_KEY,
+} from "./components/PetOwnerTutorial";
 
 // DEV
 import DevNav from "./pages/DevNav";
@@ -59,8 +62,22 @@ import PetOwnerPayHis from "./pages/dashboards/PetOwner/PetOwnerPayHis";
 import PetOwnerProfile from "./pages/dashboards/PetOwner/PetOwnerProfile";
 
 function App() {
+  const [showTutorial, setShowTutorial] = useState(() => {
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    return user.role === "pet_owner" && !localStorage.getItem(PO_TUTORIAL_KEY);
+  });
+
   useEffect(() => {
     initCSRF();
+  }, []);
+
+  useEffect(() => {
+    const handler = () => {
+      localStorage.removeItem(PO_TUTORIAL_KEY);
+      setShowTutorial(true);
+    };
+    window.addEventListener("startPetOwnerTutorial", handler);
+    return () => window.removeEventListener("startPetOwnerTutorial", handler);
   }, []);
 
   return (
@@ -126,6 +143,9 @@ function App() {
         <Route path="/admin-profile" element={<AdminProfile />} />
       </Routes>
       <BottomNavigation />
+      {showTutorial && (
+        <PetOwnerTutorial onDone={() => setShowTutorial(false)} />
+      )}
     </BrowserRouter>
   );
 }

@@ -287,7 +287,7 @@ const VetProfile = () => {
                 </div>
                 <div className="info-row">
                   <label>Password</label>
-                  <span>������������</span>
+                  <span>*******************</span>
                 </div>
                 <button
                   className="change-pass-btn"

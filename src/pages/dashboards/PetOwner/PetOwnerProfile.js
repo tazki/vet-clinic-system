@@ -5,6 +5,7 @@ import "../../../css/PetOwnerProfile.css";
 import PetOwnerSidebar from "../../../components/PetOwnerSidebar";
 import { useSidebar } from "../../../components/useSidebar";
 import { getMe, updateMe, updatePassword } from "../../../api/api";
+import { STORAGE_KEY } from "../../../components/PetOwnerTutorial";
 
 import bellIcon from "../../../assets/Bell_Icon.png";
 import userIcon from "../../../assets/Profile.png";
@@ -298,6 +299,20 @@ const PetOwnerProfile = () => {
                   onClick={() => setShowPasswordModal(true)}
                 >
                   Change Password
+                </button>
+                <button
+                  className="change-pass-btn"
+                  style={{
+                    marginTop: "8px",
+                    background: "#438fb5",
+                    color: "#fff",
+                  }}
+                  onClick={() => {
+                    localStorage.removeItem(STORAGE_KEY);
+                    navigate("/pet-owner");
+                  }}
+                >
+                  Restart Tutorial
                 </button>
               </div>
             </div>
