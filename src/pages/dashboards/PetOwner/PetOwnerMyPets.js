@@ -451,13 +451,16 @@ const PetOwnerMyPets = () => {
               <div className="form-row">
                 <div className="form-group">
                   <label>Gender</label>
-                  <input
-                    placeholder="Gender"
+                  <select
                     value={form.gender}
                     onChange={(e) =>
                       setForm((p) => ({ ...p, gender: e.target.value }))
                     }
-                  />
+                  >
+                    <option value="">Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
                 </div>
                 <div className="form-group">
                   <label>Status *</label>

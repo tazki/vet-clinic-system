@@ -115,7 +115,7 @@ const AdminMessages = () => {
           </div>
         </header>
 
-        <section className="content-body no-scroll">
+        <section className="content-body">
           <div className="messaging-wrapper">
             {/* INBOX LIST */}
             <div className="contact-sidebar">

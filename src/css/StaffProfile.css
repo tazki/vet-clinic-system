@@ -315,6 +315,14 @@
     grid-template-columns: 1fr !important;
   }
 
+  .profile-container {
+    overflow-y: auto !important;
+  }
+
+  .profile-header-card {
+    overflow-y: auto !important;
+  }
+
   /* Search inputs */
   .search-box input,
   .log-search {

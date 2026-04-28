@@ -10,6 +10,7 @@ import medicalIcon from "../assets/Medical_Icon.png";
 import inventoryIcon from "../assets/Inventory_Icon.png";
 import userManagementIcon from "../assets/UserManagement_Icon.png";
 import profileIcon from "../assets/Profile.png";
+import payHistoryIcon from "../assets/payment_icon.png";
 
 const NAV_BY_ROLE = {
   admin: [
@@ -55,9 +56,9 @@ const NAV_BY_ROLE = {
     },
     {
       key: "account",
-      label: "Account",
-      path: "/staff-profile",
-      icon: profileIcon,
+      label: "Payments",
+      path: "/staff-payments",
+      icon: payHistoryIcon,
     },
   ],
   veterinarian: [
@@ -141,7 +142,12 @@ function isDashboardPath(pathname) {
 
 function isActivePath(pathname, itemPath) {
   if (pathname === itemPath) return true;
-  if (itemPath === "/admin" || itemPath === "/staff" || itemPath === "/vet") {
+  if (
+    itemPath === "/admin" ||
+    itemPath === "/staff" ||
+    itemPath === "/vet" ||
+    itemPath === "/pet-owner"
+  ) {
     return false;
   }
   return (

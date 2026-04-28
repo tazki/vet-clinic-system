@@ -191,7 +191,11 @@ const PetOwnerProfile = () => {
             >
               <img src={bellIcon} alt="Notifications" />
             </button>
-            <TopbarUserMenu avatarSrc={avatarSource} avatarAlt="User" profilePath="/pet-owner-profile" />
+            <TopbarUserMenu
+              avatarSrc={avatarSource}
+              avatarAlt="User"
+              profilePath="/pet-owner-profile"
+            />
           </div>
         </header>
 
@@ -369,12 +373,25 @@ const PetOwnerProfile = () => {
               <div className="form-row">
                 <div className="form-group">
                   <label>Phone</label>
-                  <input
-                    value={editForm.phone}
-                    onChange={(e) =>
-                      setEditForm((p) => ({ ...p, phone: e.target.value }))
-                    }
-                  />
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <span style={{ marginRight: "8px", fontWeight: "500" }}>
+                      +63
+                    </span>
+                    <input
+                      type="number"
+                      value={editForm.phone?.replace(/^63/, "") || ""}
+                      placeholder="Enter number"
+                      maxLength="10"
+                      pattern="[0-9]*"
+                      style={{ flex: 1 }}
+                      onChange={(e) => {
+                        const numOnly = e.target.value.replace(/[^0-9]/g, "");
+                        const phone = numOnly.replace(/^63/, "").slice(0, 10);
+                        const fullPhone = phone ? `63${phone}` : "";
+                        setEditForm((p) => ({ ...p, phone: fullPhone }));
+                      }}
+                    />
+                  </div>
                 </div>
                 <div className="form-group">
                   <label>Address</label>

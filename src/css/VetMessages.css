@@ -136,6 +136,7 @@
   border-radius: 8px;
   border: 1px solid #ddd;
   outline: none;
+  margin-bottom: 0;
 }
 
 .contact-list {
@@ -262,6 +263,7 @@
   border-radius: 8px;
   border: 1px solid #ddd;
   outline: none;
+  margin-bottom: 0;
 }
 .send-btn {
   background: #63b6c5;

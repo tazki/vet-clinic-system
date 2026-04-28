@@ -119,7 +119,7 @@ const StaffMessages = () => {
           </div>
         </header>
 
-        <section className="content-body no-scroll">
+        <section className="content-body">
           <div className="messaging-wrapper">
             {/* CONTACT LIST */}
             <div className="contact-sidebar">

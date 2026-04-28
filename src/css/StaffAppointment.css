@@ -51,6 +51,7 @@
   border: 1px solid #d7dde4;
   padding: 10px 14px;
   background: #fff;
+  margin-bottom: 0;
 }
 
 .calendar-container {
@@ -468,5 +469,115 @@
 
   .weekday-short {
     display: inline;
+  }
+}
+
+/* ===== STATUS GROUPING ===== */
+.status-group {
+  margin-bottom: 20px;
+  border-radius: 10px;
+  background: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+}
+
+.status-group-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: linear-gradient(90deg, #438fb5 0%, #63b6c5 100%);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.status-group-header:hover {
+  background: linear-gradient(90deg, #3a7a99 0%, #5aacb5 100%);
+  transform: translateX(2px);
+}
+
+.status-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-icon {
+  font-size: 18px;
+  display: inline-block;
+}
+
+.status-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.status-count {
+  background: rgba(255, 255, 255, 0.3);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  min-width: 24px;
+  text-align: center;
+}
+
+.status-toggle-icon {
+  font-size: 12px;
+  transition: transform 0.3s ease;
+}
+
+.status-group-header[aria-expanded="false"] .status-toggle-icon {
+  transform: rotate(-90deg);
+}
+
+/* Desktop table within grouped section */
+.status-group .table-desktop {
+  border-collapse: collapse;
+}
+
+.status-group .appointment-table tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+  background: white;
+}
+
+.status-group .appointment-table tbody tr:hover {
+  background: #f3f4f6;
+}
+
+/* Mobile cards within grouped section */
+.status-group .table-mobile {
+  padding: 12px;
+  background: white;
+}
+
+.status-group .record-card {
+  margin-bottom: 12px;
+}
+
+/* Responsive grouping on mobile */
+@media (max-width: 768px) {
+  .status-group-header {
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+
+  .status-title {
+    font-size: 14px;
+  }
+
+  .status-count {
+    padding: 1px 6px;
+    font-size: 11px;
+  }
+
+  .status-icon {
+    font-size: 16px;
+    margin-bottom: 0;
   }
 }

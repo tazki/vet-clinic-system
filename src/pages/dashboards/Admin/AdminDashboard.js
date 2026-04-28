@@ -56,7 +56,11 @@ const AdminDashboard = () => {
             >
               <img src={bellIcon} alt="Notifications" />
             </button>
-            <TopbarUserMenu avatarSrc={userIcon} avatarAlt="Admin Profile" profilePath="/admin-profile" />
+            <TopbarUserMenu
+              avatarSrc={userIcon}
+              avatarAlt="Admin Profile"
+              profilePath="/admin-profile"
+            />
           </div>
         </header>
 
@@ -98,15 +102,8 @@ const AdminDashboard = () => {
             <div className="recent-box">
               <h4>System Health</h4>
               <p style={{ color: "#63c58d", fontWeight: "bold" }}>
-                â— All systems operational
+                All systems operational
               </p>
-            </div>
-            <div className="recent-box">
-              <h4>Quick Actions</h4>
-              <div className="action-buttons">
-                <button>Generate Report</button>
-                <button>Database Backup</button>
-              </div>
             </div>
           </div>
         </section>

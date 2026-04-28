@@ -55,7 +55,7 @@
   }
 
   .mobile-footer-tab.active img {
-    filter: none;
+    filter: grayscale(1) brightness(0.3);
   }
 
   .mobile-footer-tab:focus-visible {

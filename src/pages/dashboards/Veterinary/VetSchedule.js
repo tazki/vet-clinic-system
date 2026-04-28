@@ -383,9 +383,7 @@ export default function VetSchedule() {
               </label>
               <label className="schedule-form-span-2">
                 Reason
-                <input
-                  type="text"
-                  placeholder="Vacation, emergency, event"
+                <select
                   value={exceptionForm.reason}
                   onChange={(e) =>
                     setExceptionForm((prev) => ({
@@ -393,7 +391,17 @@ export default function VetSchedule() {
                       reason: e.target.value,
                     }))
                   }
-                />
+                >
+                  <option value="">Select a reason</option>
+                  <option value="Vacation">Vacation</option>
+                  <option value="Emergency">Emergency</option>
+                  <option value="Event">Event</option>
+                  <option value="Conference">Conference</option>
+                  <option value="Personal">Personal</option>
+                  <option value="Others">
+                    Others, please specify on Notes
+                  </option>
+                </select>
               </label>
               <button type="submit" className="schedule-add-btn">
                 Add Exception

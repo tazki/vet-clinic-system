@@ -220,7 +220,11 @@ const VetProfile = () => {
             >
               <img src={bellIcon} alt="Notifications" />
             </button>
-            <TopbarUserMenu avatarSrc={avatarSource} avatarAlt="User" profilePath="/vet-profile" />
+            <TopbarUserMenu
+              avatarSrc={avatarSource}
+              avatarAlt="User"
+              profilePath="/vet-profile"
+            />
           </div>
         </header>
 
@@ -283,7 +287,7 @@ const VetProfile = () => {
                 </div>
                 <div className="info-row">
                   <label>Password</label>
-                  <span>••••••••••••</span>
+                  <span>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</span>
                 </div>
                 <button
                   className="change-pass-btn"
@@ -371,11 +375,33 @@ const VetProfile = () => {
               <div className="form-row">
                 <div className="form-group">
                   <label>Phone</label>
-                  <input
-                    name="phone"
-                    value={editForm.phone}
-                    onChange={onEditChange}
-                  />
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <span style={{ marginRight: "8px", fontWeight: "500" }}>
+                      +63
+                    </span>
+                    <input
+                      type="number"
+                      name="phone"
+                      value={editForm.phone?.replace(/^63/, "") || ""}
+                      placeholder="Enter number"
+                      maxLength="10"
+                      pattern="[0-9]*"
+                      style={{ flex: 1 }}
+                      onChange={(e) => {
+                        const numOnly = e.target.value.replace(/[^0-9]/g, "");
+                        const phone = numOnly.replace(/^63/, "").slice(0, 10);
+                        const fullPhone = phone ? `63${phone}` : "";
+                        onEditChange({
+                          ...e,
+                          target: {
+                            ...e.target,
+                            name: "phone",
+                            value: fullPhone,
+                          },
+                        });
+                      }}
+                    />
+                  </div>
                 </div>
                 <div className="form-group">
                   <label>Address</label>

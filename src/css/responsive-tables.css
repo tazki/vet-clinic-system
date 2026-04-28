@@ -530,6 +530,82 @@
   min-width: 90px;
 }
 
+.apt-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.apt-card-pet {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.apt-card-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #e0e7ff;
+  color: #4f46e5;
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.apt-card-pet-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #1a202c;
+}
+
+.apt-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.apt-card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #374151;
+}
+
+.apt-card-label {
+  font-weight: 600;
+  color: #6b7280;
+  flex-shrink: 0;
+  min-width: 85px;
+}
+
+.apt-card-value {
+  flex: 1;
+  text-align: right;
+}
+
+.apt-card-actions {
+  display: flex;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.appointments-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
 /* ─────────────────────────────────────────────────────
    GENERIC CARD CONTAINER & LIST
    ────────────────────────────────────────────────────── */

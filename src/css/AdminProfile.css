@@ -216,6 +216,15 @@
     margin-top: var(--topbar-height) !important;
   }
 
+  .profile-layout {
+    overflow-y: auto !important;
+    align-items: auto !important;
+  }
+
+  .profile-card {
+    overflow-y: auto !important;
+  }
+
   /* Stats grid: 2 columns on tablet, 1 on phone */
   .admin-stats-grid,
   .stats-grid {
@@ -349,6 +358,7 @@
   font-size: 14px;
   outline: none;
   transition: border-color 0.2s;
+  margin-bottom: 0;
 }
 .user-modal-form input:focus {
   border-color: #2563eb;
@@ -444,6 +454,7 @@
   font-size: 14px;
   outline: none;
   transition: border-color 0.2s;
+  margin-bottom: 0;
 }
 .user-modal-form input:focus {
   border-color: #2563eb;

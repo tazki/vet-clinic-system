@@ -67,6 +67,12 @@ export const restorePet = (id) => API.patch(`/pets/${id}/restore`);
 // ─── APPOINTMENTS ─────────────────────────────────────────────────────────────
 export const getAppointments = (params) => API.get("/appointments", { params });
 export const getAppointment = (id) => API.get(`/appointments/${id}`);
+export const getAppointmentBillingSummary = (id) =>
+  API.get(`/appointments/${id}/billing-summary`);
+export const addAppointmentInventoryUsage = (id, data) =>
+  API.post(`/appointments/${id}/inventory-usage`, data);
+export const deleteAppointmentInventoryUsage = (id, usageId) =>
+  API.delete(`/appointments/${id}/inventory-usage/${usageId}`);
 export const createAppointment = (data) => API.post("/appointments", data);
 export const updateAppointment = (id, data) =>
   API.patch(`/appointments/${id}`, data);

@@ -349,12 +349,33 @@ const AdminProfile = () => {
               </div>
               <div className="form-group">
                 <label>Phone</label>
-                <input
-                  name="phone"
-                  value={form.phone}
-                  onChange={handleFormChange}
-                  placeholder="Phone number"
-                />
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <span style={{ marginRight: "8px", fontWeight: "500" }}>
+                    +63
+                  </span>
+                  <input
+                    type="number"
+                    name="phone"
+                    value={form.phone?.replace(/^63/, "") || ""}
+                    placeholder="Enter number"
+                    maxLength="10"
+                    pattern="[0-9]*"
+                    style={{ flex: 1 }}
+                    onChange={(e) => {
+                      const numOnly = e.target.value.replace(/[^0-9]/g, "");
+                      const phone = numOnly.replace(/^63/, "").slice(0, 10);
+                      const fullPhone = phone ? `63${phone}` : "";
+                      handleFormChange({
+                        ...e,
+                        target: {
+                          ...e.target,
+                          name: "phone",
+                          value: fullPhone,
+                        },
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <div className="form-group">
                 <label>Address</label>

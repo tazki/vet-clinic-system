@@ -44,6 +44,12 @@ const StaffAppointment = () => {
     notes: "",
     status: "Pending",
   });
+  const [expandedStatus, setExpandedStatus] = useState({
+    Pending: true,
+    Confirmed: true,
+    Completed: false,
+    Cancelled: false,
+  });
 
   const handleApiError = (err, fallbackMessage) => {
     const statusCode = err?.response?.status;
@@ -280,6 +286,39 @@ const StaffAppointment = () => {
 
   const petOptions = currentPetOption ? [currentPetOption, ...pets] : pets;
 
+  // Group appointments by status
+  const groupedAppointments = filteredAppointments.reduce((acc, apt) => {
+    const status = apt.status || "Pending";
+    if (!acc[status]) acc[status] = [];
+    acc[status].push(apt);
+    return acc;
+  }, {});
+
+  // Define status order for consistent display
+  const statusOrder = ["Pending", "Confirmed", "Completed", "Cancelled"];
+  const sortedStatuses = statusOrder.filter(
+    (s) => groupedAppointments[s]?.length > 0,
+  );
+
+  // Toggle status section collapse
+  const toggleStatus = (status) => {
+    setExpandedStatus((prev) => ({
+      ...prev,
+      [status]: !prev[status],
+    }));
+  };
+
+  // Get status styling
+  const getStatusConfig = (status) => {
+    const configs = {
+      Pending: { icon: "🟡", color: "#ff9800" },
+      Confirmed: { icon: "🟢", color: "#4caf50" },
+      Completed: { icon: "✓", color: "#2196f3" },
+      Cancelled: { icon: "✕", color: "#f44336" },
+    };
+    return configs[status] || configs.Pending;
+  };
+
   return (
     <div className="dashboard-container">
       <StaffSidebar isOpen={isOpen} onClose={close} />
@@ -414,113 +453,145 @@ const StaffAppointment = () => {
             </div>
           ) : (
             <div className="list-view-container">
-              <div className="table-desktop">
-                <table className="appointment-table">
-                  <thead>
-                    <tr>
-                      <th>Pet</th>
-                      <th>Owner</th>
-                      <th>Date & Time</th>
-                      <th>Reason</th>
-                      <th>Status</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredAppointments.map((apt) => (
-                      <tr key={apt.id}>
-                        <td>{apt.pet?.name || "-"}</td>
-                        <td>
-                          {`${apt.owner?.firstName || ""} ${apt.owner?.lastName || ""}`.trim() ||
-                            apt.owner?.username ||
-                            "-"}
-                        </td>
-                        <td>{new Date(apt.scheduledAt).toLocaleString()}</td>
-                        <td>{apt.reason || "-"}</td>
-                        <td>
-                          <span
-                            className={`apt-status ${(apt.status || "").toLowerCase()}`}
-                          >
-                            {apt.status}
-                          </span>
-                        </td>
-                        <td>
-                          <div className="action-btns">
-                            <button
-                              className="btn-edit"
-                              onClick={() => openEdit(apt)}
-                            >
-                              Edit
-                            </button>
-                            <button
-                              className="btn-remove"
-                              onClick={() => handleDelete(apt)}
-                            >
-                              Cancel
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              <div className="table-mobile table-cards-list">
-                {filteredAppointments.map((apt) => (
-                  <div className="record-card" key={apt.id}>
-                    <div className="record-card-header">
-                      <div className="record-card-title">
-                        <div className="record-card-id">
-                          {apt.pet?.name || "-"}
-                        </div>
-                        <div className="record-card-patient">
-                          {`${apt.owner?.firstName || ""} ${apt.owner?.lastName || ""}`.trim() ||
-                            apt.owner?.username ||
-                            "-"}
-                        </div>
-                      </div>
-                      <span
-                        className={`apt-status ${(apt.status || "").toLowerCase()}`}
-                      >
-                        {apt.status}
-                      </span>
-                    </div>
-                    <div className="record-card-body">
-                      <div className="record-card-row">
-                        <span className="record-card-label">Date & Time</span>
-                        <span>
-                          {new Date(apt.scheduledAt).toLocaleString()}
-                        </span>
-                      </div>
-                      <div className="record-card-row">
-                        <span className="record-card-label">Reason</span>
-                        <span>{apt.reason || "-"}</span>
-                      </div>
-                      <div className="record-card-row">
-                        <span className="record-card-label">Actions</span>
-                        <div className="action-btns">
-                          <button
-                            className="btn-edit"
-                            onClick={() => openEdit(apt)}
-                          >
-                            Edit
-                          </button>
-                          <button
-                            className="btn-remove"
-                            onClick={() => handleDelete(apt)}
-                          >
-                            Cancel
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {!filteredAppointments.length && (
+              {sortedStatuses.length === 0 ? (
                 <p className="list-placeholder">No appointments found.</p>
+              ) : (
+                sortedStatuses.map((status) => {
+                  const config = getStatusConfig(status);
+                  const statusApts = groupedAppointments[status];
+                  const isExpanded = expandedStatus[status];
+
+                  return (
+                    <div key={status} className="status-group">
+                      {/* Status Group Header */}
+                      <button
+                        className="status-group-header"
+                        onClick={() => toggleStatus(status)}
+                        aria-expanded={isExpanded}
+                      >
+                        <span className="status-header-left">
+                          <span className="status-icon">{config.icon}</span>
+                          <span className="status-title">{status}</span>
+                          <span className="status-count">
+                            {statusApts.length}
+                          </span>
+                        </span>
+                        <span className="status-toggle-icon">
+                          {isExpanded ? "▼" : "▶"}
+                        </span>
+                      </button>
+
+                      {/* Desktop Table View */}
+                      {isExpanded && (
+                        <div className="table-desktop">
+                          <table className="appointment-table">
+                            <tbody>
+                              {statusApts.map((apt) => (
+                                <tr key={apt.id}>
+                                  <td>{apt.pet?.name || "-"}</td>
+                                  <td>
+                                    {`${apt.owner?.firstName || ""} ${apt.owner?.lastName || ""}`.trim() ||
+                                      apt.owner?.username ||
+                                      "-"}
+                                  </td>
+                                  <td>
+                                    {new Date(apt.scheduledAt).toLocaleString()}
+                                  </td>
+                                  <td>{apt.reason || "-"}</td>
+                                  <td>
+                                    <span
+                                      className={`apt-status ${(apt.status || "").toLowerCase()}`}
+                                    >
+                                      {apt.status}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <div className="action-btns">
+                                      <button
+                                        className="btn-edit"
+                                        onClick={() => openEdit(apt)}
+                                      >
+                                        Edit
+                                      </button>
+                                      <button
+                                        className="btn-remove"
+                                        onClick={() => handleDelete(apt)}
+                                      >
+                                        Cancel
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+
+                      {/* Mobile Card View */}
+                      {isExpanded && (
+                        <div className="table-mobile table-cards-list">
+                          {statusApts.map((apt) => (
+                            <div className="record-card" key={apt.id}>
+                              <div className="record-card-header">
+                                <div className="record-card-title">
+                                  <div className="record-card-id">
+                                    {apt.pet?.name || "-"}
+                                  </div>
+                                  <div className="record-card-patient">
+                                    {`${apt.owner?.firstName || ""} ${apt.owner?.lastName || ""}`.trim() ||
+                                      apt.owner?.username ||
+                                      "-"}
+                                  </div>
+                                </div>
+                                <span
+                                  className={`apt-status ${(apt.status || "").toLowerCase()}`}
+                                >
+                                  {apt.status}
+                                </span>
+                              </div>
+                              <div className="record-card-body">
+                                <div className="record-card-row">
+                                  <span className="record-card-label">
+                                    Date & Time
+                                  </span>
+                                  <span>
+                                    {new Date(apt.scheduledAt).toLocaleString()}
+                                  </span>
+                                </div>
+                                <div className="record-card-row">
+                                  <span className="record-card-label">
+                                    Reason
+                                  </span>
+                                  <span>{apt.reason || "-"}</span>
+                                </div>
+                                <div className="record-card-row">
+                                  <span className="record-card-label">
+                                    Actions
+                                  </span>
+                                  <div className="action-btns">
+                                    <button
+                                      className="btn-edit"
+                                      onClick={() => openEdit(apt)}
+                                    >
+                                      Edit
+                                    </button>
+                                    <button
+                                      className="btn-remove"
+                                      onClick={() => handleDelete(apt)}
+                                    >
+                                      Cancel
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })
               )}
             </div>
           )}
@@ -616,7 +687,18 @@ const StaffAppointment = () => {
               </div>
               <div className="form-group">
                 <label>Reason</label>
-                <input name="reason" value={form.reason} onChange={onChange} />
+                <select name="reason" value={form.reason} onChange={onChange}>
+                  <option value="">Select a reason</option>
+                  <option value="Checkup">Checkup</option>
+                  <option value="Follow-up">Follow-up</option>
+                  <option value="Vaccination">Vaccination</option>
+                  <option value="Dental cleaning">Dental cleaning</option>
+                  <option value="Surgery">Surgery</option>
+                  <option value="Medication refill">Medication refill</option>
+                  <option value="Others">
+                    Others, please specify on Notes
+                  </option>
+                </select>
               </div>
               <div className="form-group">
                 <label>Notes</label>
